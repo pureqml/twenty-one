@@ -10,7 +10,7 @@ Rectangle {
 	Text {
 		id: gameOverText;
 		y: 250s;
-		anchors.horizontalCenter: parent.horizontalCenter;
+		x: 450s;
 		text: parent.tie ? "TIE" : (parent.playerWin ? "YOU WIN" : "YOU LOOSE");
 		color: parent.tie ? "#FFEB3B" : (parent.playerWin ? "#43A047" : "#E53935");
 		font.pixelSize: 64s;
@@ -19,7 +19,7 @@ Rectangle {
 	TextButton {
 		id: restartButton;
 		anchors.top: gameOverText.bottom;
-		anchors.horizontalCenter: parent.horizontalCenter;
+		anchors.horizontalCenter: gameOverText.horizontalCenter;
 		anchors.topMargin: 50s;
 		text: "RESTART";
 
