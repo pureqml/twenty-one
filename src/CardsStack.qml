@@ -19,8 +19,6 @@ Item {
 		id: cardsStack;
 		model: ListModel {}
 		delegate: Card {}
-
-		onCountChanged: { this.parent._last = value - 1 }
 	}
 
 	Timer {
@@ -37,24 +35,30 @@ Item {
 	}
 
 	takeAnotherCard: {
+		// Don't process during delay
+		if (opponentDelay.running)
+			return
+
+		// Call 'game over' event if both players are holding now
 		if (this.opponentHold && this.playerHold) {
-			log("Game over")
 			stackProto.gameOver()
 			return
 		}
 
-		// if (opponentDelay.running)
-		// 	return
-
-		if (this._last < 0)
-			return
-
-
+		// Turn over if opponenet is holding
 		if (this.opponentHold && this.playerMoved) {
 			this.playerMoved = !this.playerMoved
 			return
 		}
 
+		// Stop taking cards if opponent have more points and player is holding
+		if (this.playerHold && this.opponentPoints > this.playerPoints) {
+			this.opponentHold = true
+			this.gameOver()
+			return
+		}
+
+		// Keep opponent moving while player is holding
 		if (this.playerHold) {
 			this.playerMoved = true
 		}
@@ -84,8 +88,6 @@ Item {
 		}
 	}
 
-	// onClicked: { this.takeAnotherCard() }
-
 	shuffleArray(arr): {
 		for (var i = arr.length - 1; i > 0; --i) {
 			var j = Math.floor(Math.random() * (i + 1))
@@ -95,7 +97,7 @@ Item {
 		}
 	}
 
-	onCompleted: {
+	fill: {
 		var cards = [ ]
 		var suits = [ "hearts", "spades", "diamonds", "clubs" ]
 		for (var s in suits) {
@@ -109,10 +111,19 @@ Item {
 						case 14: points = 11; break
 					}
 				}
-				cards.push({ suit: suits[s], number: i, points: points })
+				cards.push({ suit: suits[s], number: i, points: points, xPosition: 0, yPosition: 0, rotation: 0 })
 			}
 		}
 		this.shuffleArray(cards)
 		cardsStack.model.assign(cards)
+
+		this._last = cards.length - 1
+		this.playerPoints = 0
+		this.opponentPoints = 0
+		this.playerHold = false
+		this.opponentHold = false
+		this.playerMoved = false
 	}
+
+	onCompleted: { this.fill() }
 }

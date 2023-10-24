@@ -46,17 +46,21 @@ Rectangle {
 		spacing: 30s;
 
 		TextButton {
+			id: hitButton;
 			text: "HIT";
 
 			onPressed: { cards.takeAnotherCard() }
 		}
 
 		TextButton {
+			id: standButton;
 			text: "STAND";
 
 			onPressed: {
 				cards.playerHold = true
 				cards.takeAnotherCard()
+				hitButton.disabled = true
+				this.disabled = true
 			}
 		}
 	}
@@ -65,5 +69,12 @@ Rectangle {
 		id: gameOverDialog;
 		playerWin: cards.playerPoints <= root.winLimit && cards.playerPoints > cards.opponentPoints || cards.opponentPoints > root.winLimit;
 		tie: cards.playerPoints == cards.opponentPoints;
+
+		onRestart: {
+			this.hide()
+			hitButton.disabled = false
+			standButton.disabled = false
+			cards.fill()
+		}
 	}
 }

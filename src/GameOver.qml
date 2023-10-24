@@ -1,4 +1,5 @@
 Rectangle {
+	signal restart;
 	property bool playerWin;
 	property bool tie;
 	anchors.fill: parent;
@@ -20,6 +21,8 @@ Rectangle {
 		anchors.horizontalCenter: parent.horizontalCenter;
 		anchors.topMargin: 50s;
 		text: "RESTART";
+
+		onPressed: { this.parent.restart() }
 	}
 
 	showDialog: {
