@@ -9,6 +9,7 @@ Rectangle {
 	border.width: activeFocus ? 3 : 0;
 	border.type: Border.Outer;
 	border.color: "#fff";
+	focus: true;
 
 	FocusOnHoverMixin { }
 	ClickMixin { }

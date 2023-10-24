@@ -9,9 +9,10 @@ Rectangle {
 
 	Text {
 		id: gameOverText;
+		y: 250s;
+		anchors.horizontalCenter: parent.horizontalCenter;
 		text: parent.tie ? "TIE" : (parent.playerWin ? "YOU WIN" : "YOU LOOSE");
 		color: parent.tie ? "#FFEB3B" : (parent.playerWin ? "#43A047" : "#E53935");
-		anchors.centerIn: parent;
 		font.pixelSize: 64s;
 	}
 

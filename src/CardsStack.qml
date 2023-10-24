@@ -39,8 +39,8 @@ Item {
 		if (opponentDelay.running)
 			return
 
-		// Call 'game over' event if both players are holding now
-		if (this.opponentHold && this.playerHold) {
+		// Call 'game over' event if both players are holding now or limit was reached
+		if (this.opponentHold && this.playerHold || this.playerPoints > root.winLimit || this.opponentPoints > root.winLimit) {
 			stackProto.gameOver()
 			return
 		}
