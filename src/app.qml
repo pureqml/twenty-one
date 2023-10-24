@@ -1,4 +1,6 @@
 Rectangle {
+	id: root;
+	property int winLimit: 21;
 	width: 1280s;
 	height: 720s;
 	color: "#2E7D32";
@@ -8,6 +10,7 @@ Rectangle {
 		x: 150s;
 		y: 100s;
 		points: cards.opponentPoints;
+		z: gameOverDialog.z + 1;
 	}
 
 	PointsText {
@@ -16,10 +19,23 @@ Rectangle {
 		anchors.bottom: parent.bottom;
 		anchors.bottomMargin: 100s;
 		points: cards.playerPoints;
+		z: gameOverDialog.z + 1;
 	}
 
 	CardsStack {
 		id: cards;
+
+		onPlayerPointsChanged: {
+			if (value > root.winLimit)
+				gameOverDialog.showDialog()
+		}
+
+		onOpponentPointsChanged: {
+			if (value > root.winLimit)
+				gameOverDialog.showDialog()
+		}
+
+		onGameOver: { gameOverDialog.showDialog() }
 	}
 
 	Column {
@@ -43,5 +59,10 @@ Rectangle {
 				cards.takeAnotherCard()
 			}
 		}
+	}
+
+	GameOver {
+		id: gameOverDialog;
+		playerWin: cards.playerPoints <= root.winLimit && cards.playerPoints > cards.opponentPoints || cards.opponentPoints > root.winLimit;
 	}
 }

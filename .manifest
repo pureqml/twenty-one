@@ -1,0 +1,19 @@
+{
+	"platforms": ["web"],
+	"properties": {
+		"style.font": { "family": "Poker" },
+		"author": {
+			"name": "Alexey Pobery",
+			"email": "a.poberiy@plsolutions.ru",
+			"organization": "PureQML",
+			"site": "https://pureqml.com"
+		},
+		"title": "blackjack",
+		"resolutionWidth": 1280,
+		"resolutionHeight": 1280,
+		"virtual.width": 1280,
+		"virtual.height": 720,
+		"iconColor": "#25B04B"
+	},
+	"templater": "jinja2"
+}

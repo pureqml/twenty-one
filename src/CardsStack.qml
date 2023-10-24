@@ -1,5 +1,6 @@
 Item {
 	id: stackProto;
+	signal gameOver;
 	property int playerPoints;
 	property int opponentPoints;
 	property bool playerHold;
@@ -34,6 +35,7 @@ Item {
 
 		if (this.opponentHold && this.playerHold) {
 			log("Game over")
+			stackProto.gameOver()
 			return
 		}
 
