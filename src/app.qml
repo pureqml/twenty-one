@@ -64,5 +64,6 @@ Rectangle {
 	GameOver {
 		id: gameOverDialog;
 		playerWin: cards.playerPoints <= root.winLimit && cards.playerPoints > cards.opponentPoints || cards.opponentPoints > root.winLimit;
+		tie: cards.playerPoints == cards.opponentPoints;
 	}
 }

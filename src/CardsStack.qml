@@ -23,6 +23,13 @@ Item {
 		onCountChanged: { this.parent._last = value - 1 }
 	}
 
+	Timer {
+		id: opponentDelay;
+		interval: 500;
+
+		onTriggered: { this.parent.opponentMove() }
+	}
+
 	opponentMove: {
 		if (stackProto.opponentPoints >= 17)
 			this.opponentHold = true
@@ -30,24 +37,26 @@ Item {
 	}
 
 	takeAnotherCard: {
-		if (this._last < 0)
-			return
-
 		if (this.opponentHold && this.playerHold) {
 			log("Game over")
 			stackProto.gameOver()
 			return
 		}
 
+		// if (opponentDelay.running)
+		// 	return
+
+		if (this._last < 0)
+			return
+
+
 		if (this.opponentHold && this.playerMoved) {
 			this.playerMoved = !this.playerMoved
 			return
 		}
 
-		if (this.playerHold && !this.playerMoved) {
-			this.playerMoved = !this.playerMoved
-			this.takeAnotherCard()
-			return
+		if (this.playerHold) {
+			this.playerMoved = true
 		}
 
 		var idx = this._last
@@ -69,8 +78,9 @@ Item {
 
 		this.playerMoved = !this.playerMoved
 		--this._last
-		if (this.playerMoved) {
-			this.opponentMove()
+
+		if (this.playerMoved || this.playerHold) {
+			opponentDelay.restart()
 		}
 	}
 
